@@ -1,0 +1,45 @@
+﻿@model Item
+@{
+    ViewData["Title"] = "Edit Item";
+}
+
+<div class="form-horizontal" style="margin-top:10px;" id="editItem">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="control-label col-md-2" for="Quantity">Quantity</label>
+        <div class="col-md-5">
+            <input class="form-control" type="number" name="Quantity" id="Quantity" value=@Model.Quantity />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2" for="AddedOn">Added On</label>
+        <div class="col-md-5">
+            <input class="form-control" type="date" name="AddedOn" id="AddedOn" value="@Model.AddedOn.Date.ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2" for="ExpireOn">ExpireOn</label>
+        <div class="col-md-5">
+            <input class="form-control" type="date" name="ExpireOn" id="ExpireOn" value="@Model.ExpireOn.Date.ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2" for="itemDefs">What?</label>
+        <div class="col-md-5">
+            <select disabled class="custom-select" id="itemDefs">
+                <option value="@Model.ItemDefinitionID">@Model.ItemDefinition.Description-@Model.ItemDefinition.Volume @Model.ItemDefinition.UnitOfMeasurement</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <input type="button" id="saveItemChangesButton" value="Save changes" class="btn btn-primary" />
+            <input type="button" id="cancelItemChangesButton" value="Cancel" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
