@@ -42,7 +42,7 @@ namespace BasementsRestApi.Models
         /// The volume of the item with respect to the unit of measurement
         /// </summary>
         [Required]
-        [Range(1,200)]
+        [Range(1,9999)]
         [DisplayName("Item Volume")]
         public int Volume { get; set; }
 
@@ -54,7 +54,7 @@ namespace BasementsRestApi.Models
         public UnitOfMeasurements UnitOfMeasurement { get; set; }
 
 
-        //[InverseProperty("Definition")]
+        [InverseProperty("ItemDefinition")]
         public virtual ICollection<Item> Items { get; set; }
 
         /// <summary>

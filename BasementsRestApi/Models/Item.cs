@@ -20,7 +20,8 @@ namespace BasementsRestApi.Models
         /// <summary>
         /// The numnber of items added
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "Quantity is required")]
+        [Range(1, 999, ErrorMessage = "Quantity must be greater than 0")]
         [DisplayName("Quantity")]
         public int Quantity { get; set; }
 
@@ -28,23 +29,28 @@ namespace BasementsRestApi.Models
         /// Item addition date
         /// </summary>
         [DisplayName("Added On")]
-        [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "Added on is required")]
         public DateTime AddedOn { get; set; }
 
         /// <summary>
         /// Item expiration date
         /// </summary>
         [DisplayName("Expire On")]
+        [Required(ErrorMessage = "Expiring date is required")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ExpireOn { get; set; }
 
-        
+        [Required(ErrorMessage = "Item definition is required")]
         public int ItemDefinitionID { get; set; }
+        [Required(ErrorMessage = "User is required")]
         public int UserID { get; set; }
+
         /// <summary>
         /// The user who added this item
         /// </summary>
-        //[ForeignKey("AddedByID")]
-        //[InverseProperty("Items")]
+        
+        [ForeignKey("UserID")]
         public virtual User User { get; set; }
 
         /// <summary>
@@ -52,6 +58,8 @@ namespace BasementsRestApi.Models
         /// </summary>
         //[ForeignKey("ItemDefinitionID")]
         //[InverseProperty("Items")]
+       
+        [ForeignKey("ItemDefinitionID")]
         public virtual ItemDefinition ItemDefinition { get; set; }
     }
 }

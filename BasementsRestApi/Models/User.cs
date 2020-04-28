@@ -19,11 +19,10 @@ namespace BasementsRestApi.Models
         [DisplayName("Name")]
         public string Name { get; set; }
 
-        [Required]
         [DisplayName("Last Activity")]
         public DateTime LastActivityTimestamp { get; set; }
 
-        //[InverseProperty("AddedBy")]
+        [InverseProperty("User")]
         public virtual ICollection<Item> Items { get; set; }
 
         /// <summary>
