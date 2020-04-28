@@ -9,11 +9,13 @@ namespace BasementsRestApi.Repositories
         IEnumerable<Item> GetItems();
         Item GetItemByID(int itemID);
         IEnumerable<ItemDefinition> GetItemDefinitions();
+        void AddItemDefinition(ItemDefinition newItemDefinition);
         ItemDefinition GetItemDefinitionByID(int itemDefinitionID);
         IEnumerable<User> GetUsers();
         User GetUserByID(int userID);
-        void AddItem([FromBody] Item item);
-        void AddUser([FromBody] User user);
+        void AddItem(Item item);
+        void AddUser(User user);
+        void UpdateItem(Item updatedItem);
         void DeleteItem(int itemID);
     }
 }

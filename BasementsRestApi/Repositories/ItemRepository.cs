@@ -34,6 +34,19 @@ namespace BasementsRestApi.Repositories
 
         }
 
+        public void UpdateItem(Item updatedItem)
+        {
+            var itemToUpdate = GetItemByID(updatedItem.ItemID);
+            if (itemToUpdate != null)
+            {
+                itemToUpdate.AddedOn = updatedItem.AddedOn;
+                itemToUpdate.ExpireOn = updatedItem.ExpireOn;
+                itemToUpdate.Quantity = updatedItem.Quantity;
+                _context.Items.Update(itemToUpdate);
+                _context.SaveChanges();
+            }            
+        }
+
         public Item GetItemByID(int itemID)
         {
             return _context.Items
@@ -45,6 +58,12 @@ namespace BasementsRestApi.Repositories
         public ItemDefinition GetItemDefinitionByID(int itemDefinitionID)
         {
             return _context.ItemDefinitions.Where(id => id.ItemDefinitionID == itemDefinitionID).FirstOrDefault();
+        }
+
+        public void AddItemDefinition(ItemDefinition newItemDefinition)
+        {
+            _context.ItemDefinitions.Add(newItemDefinition);
+            _context.SaveChanges();
         }
 
         public IEnumerable<ItemDefinition> GetItemDefinitions()
