@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
 
 namespace BasementsRestApi.Commons
 {
@@ -12,7 +15,9 @@ namespace BasementsRestApi.Commons
     {
         FOOD,
         BEVERAGE,
-        CLEANING
+        CLEANING,
+        PETS,
+        OTHER
     }
 
     /// <summary>
@@ -30,12 +35,24 @@ namespace BasementsRestApi.Commons
         [Display(Name = "U")]
         UNIT
     }
-    
-    /// <summary>
-    /// This class contains common definitions: enum, useful classes...
-    /// </summary>
-    public class Commons
-    {
 
+    public static class EnumExtensions
+    {
+        public static string GetDisplayName(this Enum enumValue)
+        {
+            return enumValue.GetType()
+                            .GetMember(enumValue.ToString())
+                            .First()
+                            .GetCustomAttribute<DisplayAttribute>()
+                            .GetName();
+        }
     }
+    
+    ///// <summary>
+    ///// This class contains common definitions: enum, useful classes...
+    ///// </summary>
+    //public class Commons
+    //{
+
+    //}
 }
