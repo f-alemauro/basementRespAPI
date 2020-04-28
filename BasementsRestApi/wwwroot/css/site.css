@@ -85,3 +85,7 @@ table.storedProcedureTable {
 .rowMsg {
     width: auto;
 }
+
+#item_Quantity {
+    width: 4em;
+}
