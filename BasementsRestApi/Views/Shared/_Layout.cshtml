@@ -38,14 +38,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Add" asp-action="Index"><span class="glyphicon glyphicon-home"></span>Items</a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Add" asp-action="Index"><span class="glyphicon glyphicon-home"></span>Users</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="Index"><span class="glyphicon glyphicon-home"></span>Items</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ItemDefinition" asp-action="Index"><span class="glyphicon glyphicon-home"></span>ItemDefinition</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    
     <div class="container">
+        <div class="alert" style="display:none"></div>        
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

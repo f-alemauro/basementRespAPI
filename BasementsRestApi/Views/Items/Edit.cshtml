@@ -1,0 +1,60 @@
+﻿@model Item
+@{
+    ViewData["Title"] = "Edit Item";
+}
+
+<form action="edit" method="post">
+    <div class="form-horizontal" style="margin-top:10px;" id="editItem">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <input type="hidden" name="itemID" value="@Model.ItemID">
+        @Html.HiddenFor(model => model.ItemDefinition.ItemDefinitionID)
+        @Html.HiddenFor(model => model.ItemDefinition.Type)
+        @Html.HiddenFor(model => model.ItemDefinition.Volume)
+        @Html.HiddenFor(model => model.ItemDefinition.UnitOfMeasurement)
+
+        @Html.HiddenFor(model => model.User.UserID)
+        @Html.HiddenFor(model => model.User.Name)
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Quantity">Quantity</label>
+            <div class="col-md-5">
+                <input class="form-control" type="number" name="Quantity" id="Quantity" value=@Model.Quantity />
+                <span class="field-validation-valid text-danger"
+                      data-valmsg-for="Quantity"
+                      data-valmsg-replace="true">
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="AddedOn">Added On</label>
+            <div class="col-md-5">
+                <input class="form-control" type="date" name="AddedOn" id="AddedOn" value="@Model.AddedOn.Date.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="ExpireOn">ExpireOn</label>
+            <div class="col-md-5">
+                <input class="form-control" type="date" name="ExpireOn" id="ExpireOn" value="@Model.ExpireOn.Date.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="ItemDefinitionID">What?</label>
+            <div class="col-md-5">
+                <select disabled class="custom-select" id="itemDefs">
+                    <option value="@Model.ItemDefinitionID">@Model.ItemDefinition.Description-@Model.ItemDefinition.Volume @Model.ItemDefinition.UnitOfMeasurement</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <input type="submit" id="saveItemChangesButton" value="Save changes" class="btn btn-primary" />
+                <a href="index">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+</form>

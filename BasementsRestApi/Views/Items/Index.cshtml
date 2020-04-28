@@ -1,0 +1,181 @@
+﻿@model IEnumerable<Item>
+@{
+    ViewData["Title"] = "A4 Listing";
+}
+
+<div class="container">
+    <div class="row">
+        <h2>Basement items</h2>
+    </div>
+    <div class="row">
+        <p>Here is the list of all the available items.</p>
+    </div>
+    <div style="margin-top:10px" class="itemsList row">
+        <table id="itemList" style="width:80%">
+            @*id="itemTable" class="table table-bordered table-striped">*@
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.ItemDefinition.Description)</th>
+                    <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                    <th>@Html.DisplayNameFor(model => model.AddedOn)</th>
+                    <th>@Html.DisplayNameFor(model => model.ExpireOn)</th>
+                    <th>Added by</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="@("itemRow"+@item.ItemID)">
+                        <td>@Html.DisplayFor(modelItem => item.ItemDefinition.Description),@Html.DisplayFor(modelItem => item.ItemDefinition.Volume) @Html.DisplayFor(modelItem => item.ItemDefinition.UnitOfMeasurement)</td>
+                        @*<td>@Html.DisplayFor(modelItem => item.Quantity)</td>*@
+                        <td>@Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { @class = "form-control", itemID = item.ItemID, min = "1" } })</td>
+                        <td>@Html.DisplayFor(modelItem => item.AddedOn)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ExpireOn)</td>
+                        <td>@Html.DisplayFor(modelItem => item.User.Name)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { itemID = item.ItemID }) |
+                            @*@Html.ActionLink("Add another", "addAnother", null, new { @class = "addAnotherAction", itemID = item.ItemID }) |*@
+                            @Html.ActionLink("Delete", "DeleteItem", "Items", null, new { @class = "deleteAction", itemID = item.ItemID })
+                        </td>
+                    </tr>
+                }
+        </table>
+
+
+    </div>
+    <div class="row mt-3">
+        <button type="button" id="newItemButton" class="btn btn-primary">Add new item</button>
+    </div>
+    <form class="form-horizontal" style="margin-top:10px; display:none;" id="newItemForm">
+        @*<div class="form-horizontal" style="margin-top:10px; display:none;" id="newItemForm">*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <label class="col-form-label col-md-2" for="Quantity">Quantity</label>
+            <div class="col-md-5">
+                <input class="form-control" type="number" name="Quantity" id="Quantity" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2" for="AddedOn">Added On</label>
+            <div class="col-md-5">
+                <input class="form-control" type="date" name="AddedOn" id="AddedOn" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2" for="ExpireOn">ExpireOn</label>
+            <div class="col-md-5">
+                <input class="form-control" type="date" name="ExpireOn" id="ExpireOn" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2" for="itemDefs">What?</label>
+            <div class="col-md-5">
+                <select class="custom-select" id="itemDefs"></select>
+            </div>
+            <div class="col-md-2">
+                <button type="button" id="newItemDefButton" class="btn btn-primary">New</button>
+            </div>
+        </div>
+
+
+
+        <div class="offset-md-1" id="itemDefsForm" style="display:none;">
+            <div class="form-group row">
+                <label class="control-label col-md-2" for="Barcode">Barcode</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" name="Barcode" id="Barcode" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-md-2" for="itemDefType">Type</label>
+                <div class="col-md-5">
+                    <select class="custom-select" id="itemDefType">
+                        @foreach (int item in Enum.GetValues(typeof(@ItemType)))
+                        {
+                            var enumString = (ItemType)item;
+                            <option value="@item">@enumString</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-md-2" for="Description">Description</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" name="Description" id="Description" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-md-2" for="Volume">Volume</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="number" name="Volume" id="Volume" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-md-2" for="itemDefUOM">Unit of measurement</label>
+                <div class="col-md-5">
+                    <select class="custom-select" id="itemDefUOM">
+                        @foreach (int item in Enum.GetValues(typeof(UnitOfMeasurements)))
+                        {
+                            var enumString = (UnitOfMeasurements)item;
+                            var enumDisplayName = enumString.GetDisplayName();
+                            <option value="@item">@enumString (@enumDisplayName)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" id="addItemDef" value="Add" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="form-group row">
+                <label class="control-label col-md-2" for="itemDefs">Who?</label>
+                <div class="col-md-5">
+                    <select class="custom-select" id="usersDef"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" id="saveItemButton" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+</div>
+
+<script type="text/javascript">
+    
+    var userMessage = '@Html.Raw(TempData["UserMessage"])';
+    if (userMessage) {
+        var data = $.parseJSON(userMessage);
+        $('div.alert').fadeIn(500).addClass(data.CssClassName).html('<strong>' + data.Title + '</strong> ' + data.Message).delay(3000).fadeOut(500);
+    }
+
+
+    $.get("/api/itemDefinitions", function (response) {
+        if (response.success) {
+            for (var i = 0; i <= response.data.length; i++) {
+                $('#itemDefs').append('<option value="' + response.data[i].itemDefinitionID + '">' + response.data[i].description + '-' + response.data[i].volume + ' ' + response.data[i].unitOfMeasurement + '</option>');
+            }
+        }
+
+    });
+
+    $.get("/api/users", function (response) {
+        if (response.success) {
+            for (var i = 0; i <= response.data.length; i++) {
+                $('#usersDef').append('<option value="' + response.data[i].UserID + '">' + response.data[i].name+ '</option>');
+            }
+        }
+
+    });
+</script>
