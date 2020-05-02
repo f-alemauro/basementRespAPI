@@ -9,7 +9,7 @@ namespace BasementsRestApi.Repositories
 {
     public class ItemRepository : IItemRepository
     {
-        private ItemContext _context;
+        private BasementContext _context;
 
         public void AddItem(Item item)
         {
@@ -92,7 +92,7 @@ namespace BasementsRestApi.Repositories
                 .ToList();
         }
 
-        public ItemRepository(ItemContext context)
+        public ItemRepository(BasementContext context)
         {
             _context = context;
         }

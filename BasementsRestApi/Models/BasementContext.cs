@@ -18,9 +18,10 @@ namespace BasementsRestApi.Models
             base.OnConfiguring(optionsBuilder);
         }
 
-        public BasementContext()
-       : base()
+        public BasementContext(DbContextOptions options)
+       : base(options)
         {
+        //    Database.EnsureCreated();
         }
 
     }

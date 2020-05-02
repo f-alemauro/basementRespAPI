@@ -15,14 +15,14 @@ namespace BasementsRestApi
 
             //this is necessary to populate the in memory database;
             //once deployed with a real db, please comment this
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<ItemContext>();
-                var fakeItems = GenerateFakeData();
-                context.Items.AddRange(fakeItems);
-                context.SaveChanges();
-            }
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
+            //    var context = services.GetRequiredService<BasementContext>();
+            //    var fakeItems = GenerateFakeData();
+            //    context.Items.AddRange(fakeItems);
+            //    context.SaveChanges();
+            //}
 
             host.Run();
         }
@@ -79,7 +79,7 @@ namespace BasementsRestApi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
+                //.UseKestrel()
             .UseStartup<Startup>();
     }
 }

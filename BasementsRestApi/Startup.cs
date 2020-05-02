@@ -13,6 +13,10 @@ namespace BasementsRestApi
     {
         public Startup(IConfiguration configuration)
         {
+            //using (var ctx = new BasementContext())
+            //{
+            //    ctx.Database.EnsureCreated();
+            //}
             Configuration = configuration;
         }
 
@@ -30,7 +34,11 @@ namespace BasementsRestApi
                 );
 
             services.AddScoped<IItemRepository, ItemRepository>();
-            services.AddDbContext<ItemContext>(options => options.UseInMemoryDatabase(databaseName: "BasementApiDB"));
+            //services.AddEntityFrameworkSqlite().AddDbContext<BasementContext>();
+            var db = services.AddDbContext<BasementContext>(options =>
+            options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            
+            //services.AddDbContext<ItemContext>(options => options.UseInMemoryDatabase(databaseName: "BasementApiDB"));
 
         }
 
