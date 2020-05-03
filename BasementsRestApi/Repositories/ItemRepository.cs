@@ -77,6 +77,8 @@ namespace BasementsRestApi.Repositories
             return _context.Items
                 .Include(i => i.User)
                 .Include(i => i.ItemDefinition)
+                //.GroupBy(i=> new { i.ItemDefinitionID,i.ExpireOn}).
+                //Select(new Item)
                 .ToList();
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using BasementsRestApi.Models;
 using BasementsRestApi.Repositories;
@@ -32,9 +33,34 @@ namespace BasementsRestApi.Controllers
         }
 
         // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpPost("api/users")]
+        public IActionResult Post([FromBody]User newUser)
         {
+            if (ModelState.IsValid)
+            {
+                _repo.AddUser(newUser);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+
+                return Json(new
+                {
+                    success = true,
+                    CssClassName = "alert-success",
+                    Title = "Success!",
+                    Message = "User added correctly.",
+                    data = newUser
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    success = false,
+                    CssClassName = "alert-warning",
+                    Title = "Error!",
+                    Message = "User not added."
+                    //data = newItem
+                });
+            }
         }
 
         // PUT api/<controller>/5

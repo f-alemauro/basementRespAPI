@@ -44,7 +44,7 @@ namespace BasementsRestApi.Models
         [Required]
         [Range(1,9999)]
         [DisplayName("Item Volume")]
-        public int Volume { get; set; }
+        public float Volume { get; set; }
 
         /// <summary>
         /// The unit of measurement

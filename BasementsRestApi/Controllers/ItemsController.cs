@@ -38,7 +38,7 @@ namespace BasementsRestApi.Controllers
             {
                 try
                 {
-                    var result = UpdateItem(updatedItem);
+                    UpdateItem(updatedItem);
                     TempData["UserMessage"] = JsonConvert.SerializeObject(
                     new UserMessageVM
                     {
@@ -149,14 +149,6 @@ namespace BasementsRestApi.Controllers
             }
             else
             {
-                //TempData["UserMessage"] = JsonConvert.SerializeObject(
-                //  new UserMessageVM
-                //  {
-                //      CssClassName = "alert-warning",
-                //      Title = "Error!",
-                //      Message = "Error in adding item"
-                //  });
-                //Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new
                 {
                     success= false,
@@ -176,21 +168,51 @@ namespace BasementsRestApi.Controllers
             {
                 item.Quantity = quantity;
                 _repo.UpdateItem(item);
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { success = true, message = "Item quantity updated!" });
+                return Json(new
+                {
+                    success = true,
+                    CssClassName = "alert-success",
+                    Title = "Success!",
+                    Message = "Item quantiy correctly updated"
+                });
             }
             else
             {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return Json(new { success = false, message = "Error in updating item quantity" });
+                return Json(new
+                {
+                    success = false,
+                    CssClassName = "alert-warning",
+                    Title = "Error!",
+                    Message = "Item quantity not updated"
+                    //data = newItem
+                });
             }
         }
 
         [HttpDelete("api/items/{itemID}")]
         public IActionResult DeleteItem(int itemID)
         {
-            _repo.DeleteItem(itemID);
-            return Json(new { success = true, message = "Item deleted!" });
+            try
+            {
+                _repo.DeleteItem(itemID);
+                return Json(new
+                {
+                    success = true,
+                    CssClassName = "alert-success",
+                    Title = "Success!",
+                    Message = "Item deleted correctly."
+                });
+            }
+            catch
+            {
+                return Json(new
+                {
+                    success = false,
+                    CssClassName = "alert-warning",
+                    Title = "Error!",
+                    Message = "Item not deleted."
+                });
+            }
         }
 
         #endregion
