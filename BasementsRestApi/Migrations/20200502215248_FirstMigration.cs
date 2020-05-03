@@ -16,7 +16,7 @@ namespace BasementsRestApi.Migrations
                     BarCode = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
                     Description = table.Column<string>(maxLength: 30, nullable: true),
-                    Volume = table.Column<int>(nullable: false),
+                    Volume = table.Column<float>(nullable: false),
                     UnitOfMeasurement = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
