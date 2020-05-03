@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DB\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Views\Shared\EditorTemplates\" />

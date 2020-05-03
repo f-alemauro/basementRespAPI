@@ -1,5 +1,24 @@
 ﻿var timeoudID = -1;
 
+$('.cancelNewItemDef').click(function (e) {
+    e.preventDefault();
+    ClearNewItemDefForm();
+    $("#itemDefsForm").toggle();
+});
+
+$('.cancelNewUser').click(function (e) {
+    e.preventDefault();
+    ClearNewUserForm();
+    $("#userForm").toggle();
+});
+
+$('.cancelNewItem').click(function (e) {
+    e.preventDefault();
+    ClearNewItemForm();
+    $("#newItemForm").toggle();
+
+});
+
 $('.deleteAction').click(function (e) {
     e.preventDefault();
     var id = $(this).attr("itemID");
@@ -58,14 +77,17 @@ $(document).on("change", "#item_Quantity",
 
 $("#newItemButton").click(function () {
     $("#newItemForm").toggle();
+    ClearNewItemForm();
 });
 
 $("#newItemDefButton").click(function () {
     $("#itemDefsForm").toggle();
+    ClearNewItemDefForm();
 });
 
 $("#newUserForm").click(function () {
     $("#userForm").toggle();
+    ClearNewUserForm();
 });
 
 
@@ -111,7 +133,7 @@ $("#saveItemButton").click(function () {
         complete: function () {
             $('html, body').animate({ scrollTop: 0 }, 'fast');
             $("#newItemForm").toggle();
-           
+            ClearNewItemForm();
         }
     });
     
@@ -149,6 +171,7 @@ $("#addItemDef").click(function () {
         data: data,
         complete: function () {
             $("#itemDefsForm").toggle();
+            ClearNewItemDefForm();
         }
     });
 
@@ -182,7 +205,29 @@ $("#addUserButton").click(function () {
         data: data,
         complete: function () {
             $("#userForm").toggle();
+            ClearNewUserForm();
         }
     });
 
 })
+
+
+function ClearNewUserForm() {
+    $('#Name').val("");
+};
+
+function ClearNewItemDefForm() {
+    $('#Barcode').val("");
+    $('#itemDefType').val("");
+    $('#Description').val("");
+    $('#Volume').val("");
+    $('#itemDefUOM').val("");
+};
+
+function ClearNewItemForm() {
+    $('#Quantity').val("");
+    $('#AddedOn').val("");
+    $('#ExpireOn').val("");
+    $('#itemDefs').val("");
+    $('#usersDef').val("");
+};
