@@ -112,7 +112,8 @@
             <div class="form-group row">
                 <label class="control-label col-md-2" for="Volume">Volume</label>
                 <div class="col-md-5">
-                    <input class="form-control" type="number" name="Volume" id="Volume" />
+
+                    <input class="form-control" type="number" step=".01" min="0" name="Volume" id="Volume" />
                 </div>
             </div>
             <div class="form-group row">
@@ -134,22 +135,43 @@
                 </div>
             </div>
         </div>
-        
-        
-        
+
+
+
         <div class="form-group row">
-                <label class="control-label col-md-2" for="itemDefs">Who?</label>
+            <label class="control-label col-md-2" for="itemDefs">Who?</label>
+            <div class="col-md-5">
+                <select class="custom-select" id="usersDef"></select>
+            </div>
+            <div class="col-md-2">
+                <button type="button" id="newUserForm" class="btn btn-primary">New</button>
+            </div>
+        </div>
+
+
+
+
+        <div class="offset-md-1" id="userForm" style="display:none;">
+            <div class="form-group row">
+                <label class="control-label col-md-2" for="Name">Name</label>
                 <div class="col-md-5">
-                    <select class="custom-select" id="usersDef"></select>
+                    <input class="form-control" type="text" name="Name" id="Name" />
                 </div>
             </div>
-
             <div class="form-group row">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="button" id="saveItemButton" value="Save" class="btn btn-primary" />
+                    <input type="button" id="addUserButton" value="Add" class="btn btn-primary" />
                 </div>
             </div>
-        </form>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="saveItemButton" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
 </div>
 
 <script type="text/javascript">
@@ -173,7 +195,7 @@
     $.get("/api/users", function (response) {
         if (response.success) {
             for (var i = 0; i <= response.data.length; i++) {
-                $('#usersDef').append('<option value="' + response.data[i].UserID + '">' + response.data[i].name+ '</option>');
+                $('#usersDef').append('<option value="' + response.data[i].userID + '">' + response.data[i].name+ '</option>');
             }
         }
 
