@@ -1,4 +1,6 @@
-﻿$('.deleteAction').click(function (e) {
+﻿var timeoudID = -1;
+
+$('.deleteAction').click(function (e) {
     e.preventDefault();
     var id = $(this).attr("itemID");
         if (confirm("Confirm delete?")) {
@@ -7,11 +9,16 @@
                 url: '/api/items/'+id,
              
                 contentType: "application/json; charset=utf-8",
-                success: function () {
-                    $('table#itemList tr#itemRow'+id).remove();
-                },
-                error: function () {
-                    alert("Error in deleting item");
+                success: function (response) {
+                    if (response.success)
+                    {
+                        $('div.alert').fadeIn(500).addClass(response.cssClassName).html('<strong>' + response.title + '</strong> ' + response.message).delay(3000).fadeOut(500);
+                        $('table#itemList tr#itemRow' + id).remove();
+                    }
+                    else
+                    {
+                        $('div.alert').fadeIn(500).addClass(response.cssClassName).html('<strong>' + response.title + '</strong> ' + response.message).delay(3000).fadeOut(500);
+                    }
                 }
             });
         }
@@ -20,44 +27,34 @@
 $(document).on("change", "#item_Quantity",
     function ()
     {
-        var quantity = parseInt($(this).val(), 10);
-        if (quantity) {
-            var itemID = $(this).attr("itemID");
-            $.post(
-                "/api/items/" + itemID + "/" + quantity
-            )
-                .done(
-                    function (data, textStatus, jqXHR)
-                    {
-                        alert(data.message)
-                    })
-                .fail(
-                    function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert("error:" + jqXHR.responseJSON.message);
-                    })
+        if (timeoudID!=-1)
+        {
+            window.clearTimeout(timeoudID);
         }
+        var quantity = parseInt($(this).val(), 10);
+        var itemID = $(this).attr("itemID");
+        timeoudID = window.setTimeout(function () {
+            //var quantity = parseInt($(this).val(), 10);
+            if (quantity) {
+                //var itemID = $(this).attr("itemID");
+                $.post(
+                    "/api/items/" + itemID + "/" + quantity
+                )
+                    .done(
+                        function (response, textStatus, jqXHR) {
+                            $('div.alert').fadeIn(500).addClass(response.cssClassName).html('<strong>' + response.title + '</strong> ' + response.message).delay(3000).fadeOut(500);
+                        }
+                    )
+                    .fail(
+                        function (jqXHR, textStatus, errorThrown) {
+                            alert("error:" + jqXHR.responseJSON.message);
+                        })
+            }
+            timeoudID = -1;
+        }, 3000);
     
     }
 );
-
-
-//$('.addAnotherAction').click(function (e) {
-//    e.preventDefault();
-//    var id = $(this).attr("itemID");
-//        $.ajax({
-//            type: "PUSH",
-//            url: '/api/items/' + id,
-
-//            contentType: "application/json; charset=utf-8",
-//            success: function (response) {
-//                $('table#itemList tr#itemRow' + id).remove();
-//            },
-//            error: function (response) {
-//                alert("Error in deleting item");
-//            }
-//        });
-//})
 
 $("#newItemButton").click(function () {
     $("#newItemForm").toggle();
@@ -65,6 +62,10 @@ $("#newItemButton").click(function () {
 
 $("#newItemDefButton").click(function () {
     $("#itemDefsForm").toggle();
+});
+
+$("#newUserForm").click(function () {
+    $("#userForm").toggle();
 });
 
 
@@ -148,6 +149,39 @@ $("#addItemDef").click(function () {
         data: data,
         complete: function () {
             $("#itemDefsForm").toggle();
+        }
+    });
+
+})
+
+
+
+$("#addUserButton").click(function () {
+
+    var newUser = {};
+    newUser.Name = $('#Name').val();
+    newUser.LastActivityTimestamp = '1900-01-01 00:00:00';
+    var data = JSON.stringify(newUser);
+
+    $.ajax({
+        url: '/api/users',
+        type: 'POST',
+        contentType: 'application/json',
+        success: function (response) {
+            if (response.success) {
+                $('div.alert').fadeIn(500).addClass(response.cssClassName).html('<strong>' + response.title + '</strong> ' + response.message).delay(3000).fadeOut(500);
+                $('#usersDef').append('<option value="' + response.data.userID + '" selected>' + response.data.name+'</option>');
+            }
+            else {
+                $('div.alert').fadeIn(500).addClass(response.cssClassName).html('<strong>' + response.title + '</strong> ' + response.message).delay(3000).fadeOut(500);
+            }
+        },
+        fail: function (response) {
+
+        },
+        data: data,
+        complete: function () {
+            $("#userForm").toggle();
         }
     });
 
